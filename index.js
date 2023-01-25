@@ -30,11 +30,13 @@ function calculateTeamFinanceReport(salaries, team) {
   // полные зарплаты
   for (const key in salaries) {
     if (salaries.hasOwnProperty(key)) {
+      console.log(parseInt(salaries[key].tax)/100);
       salaries[key] =
-        (salaries[key].salary / 100) * Number.parseInt(salaries[key].tax) +
-        salaries[key].salary;
+        ((salaries[key].salary) /
+        (1 - Number.parseInt(salaries[key].tax) / 100));
     }
   }
+
   // console.log(salaries);
   // сделал масив с обектами по типу команды + новый ключ с зарплатой
   const newTeam = [];
@@ -72,6 +74,9 @@ function calculateTeamFinanceReport(salaries, team) {
       objectReply.totalBudgetTeam += employee.fullSalary;
     }
   });
+  for (const key in objectReply) {
+    objectReply[key] = Math.round(objectReply[key]);
+  }
   // финальный объект
   // console.log(objectReply);
   return objectReply;
